@@ -25,7 +25,7 @@ function isValidRequest (req) {
 
         //Create a signature to be tested by client
         if (secureCompare(signature, expectedSignature)) {
-          const skyhmac = crypto.createHmac(cipher, config[service].skykey)
+          const skyhmac = crypto.createHmac(cipher, config[service].clientkey)
                             .update(signature).digest('hex');
 
           req.headers['x-sky-signature'] = `${cipher}=${skyhmac}`;
