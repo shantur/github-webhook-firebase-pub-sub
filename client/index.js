@@ -54,13 +54,13 @@ function startListenerForService(service) {
   var whRef = database.ref('webhooks/' + service.path);
 
   whRef.on('child_added', function(child) {
-    console.log("Found Webhook : " + JSON.stringify(child.val()));
+    console.log("Found Webhook : " + child.key + " : " + JSON.stringify(child.val()));
     let webhook = child.val();
     if (verifyWebhook(service, webhook)) {
-      console.log("Webhook verified");
+      console.log("Webhook verified : " + child.key);
       deliverWebhook(service, webhook, child.key);
     } else {
-      console.log("Cannot verify webhook");
+      console.log("Cannot verify webhook : " + child.key);
     }
   })
 
@@ -93,10 +93,11 @@ function deliverWebhook(service, webhook, webhookKey) {
   };
 
   request.post(options, function (error, response, body) {
-    console.log(response);
     if(response.statusCode == 200){
-      console.log("Webhook delivered");
+      console.log("Webhook delivered : " + webhookKey + " to : " + service.forwardUrl);
       deleteWebhook(service, webhookKey);
+    } else {
+      console.log("Webhook delivery failed : " + webhookKey + " to : " + service.forwardUrl + " StatusCode : " + response.statusCode + " Response : " +  JSON.stringify(body));
     }
   });
 }
