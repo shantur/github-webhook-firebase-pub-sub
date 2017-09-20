@@ -93,11 +93,15 @@ function deliverWebhook(service, webhook, webhookKey) {
   };
 
   request.post(options, function (error, response, body) {
-    if(response.statusCode == 200){
-      console.log("Webhook delivered : " + webhookKey + " to : " + service.forwardUrl);
-      deleteWebhook(service, webhookKey);
+    if (!error) {
+      if(response.statusCode == 200){
+        console.log("Webhook delivered : " + webhookKey + " to : " + service.forwardUrl);
+        deleteWebhook(service, webhookKey);
+      } else {
+        console.log("Webhook delivery failed : " + webhookKey + " to : " + service.forwardUrl + " StatusCode : " + response.statusCode + " Response : " +  JSON.stringify(body));
+      }
     } else {
-      console.log("Webhook delivery failed : " + webhookKey + " to : " + service.forwardUrl + " StatusCode : " + response.statusCode + " Response : " +  JSON.stringify(body));
+      console.log("Webhook delivery failed : " + webhookKey + " to : " + service.forwardUrl + "Error : " + JSON.stringify(error));
     }
   });
 }
