@@ -50,6 +50,8 @@ exports.webhook = functions.https.onRequest((req, res) => {
   const path = req.path;
   const headers = req.headers;
 
+  console.log("Recieved webhook for path : " + req.path);
+
   if (isValidRequest(req)) {
     // Push the new message into the Realtime Database using the Firebase Admin SDK.
     admin.database().ref('/webhooks' + req.path).push({body: body, path: path, headers: headers}).then(snapshot => {
