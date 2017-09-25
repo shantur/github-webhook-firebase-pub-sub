@@ -100,13 +100,13 @@ function deliverWebhook(service, webhook, webhookKey) {
     if (!error) {
       if(response.statusCode == 200){
         log("Webhook delivered : " + webhookKey + " to : " + service.forwardUrl);
-        deleteWebhook(service, webhookKey);
       } else {
         log("Webhook delivery failed : " + webhookKey + " to : " + service.forwardUrl + " StatusCode : " + response.statusCode + " Response : " +  JSON.stringify(body));
       }
     } else {
       log("Webhook delivery failed : " + webhookKey + " to : " + service.forwardUrl + "Error : " + JSON.stringify(error));
     }
+    deleteWebhook(service, webhookKey);
   });
 }
 
