@@ -9,5 +9,5 @@
       "clientkey": "my-super-secret-client-key",
       "forwardUrl": "http://my-local-service/post/webhook/url"
     }
-  },
+  }
 }
